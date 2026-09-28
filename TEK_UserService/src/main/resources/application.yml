@@ -1,0 +1,36 @@
+
+
+server:
+  port: 8334
+
+spring:
+  application:
+    name: TEK-USER-SERVICE
+  datasource:
+    url: jdbc:mysql://localhost:3306/tek_micro_user_service?createDatabaseIfNotExist=true
+    username: root
+    password: root@123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      orderService:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000
+        permittedNumberOfCallsInHalfOpenState: 5
+  retry:
+    instances:
+      orderService:
+        maxAttempts: 3
+        waitDuration: 200
